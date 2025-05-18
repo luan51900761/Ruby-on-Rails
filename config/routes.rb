@@ -1,14 +1,32 @@
+# config/routes.rb
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # Define a root path
+  root "home#index"
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+  # assets routes
+  resources :assets do
+    collection do
+      get :bulk_import
+      post :process_bulk_import
+    end
+  end
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  # Admin routes
+  get 'admin/creator_earnings', to: 'admin#creator_earnings', as: 'creator_earnings'
+  
+  # catalog routes
+  resources :catalog, only: [:index, :show]
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  # Routes for purchases
+  resources :purchases, only: [:index, :create]
+
+  # Routes for downloads
+  get 'downloads', to: 'downloads#index'
+  get 'downloads/:id', to: 'downloads#download', as: 'download'
+  get 'download_file/:id', to: 'downloads#download', as: 'download_file'
+
+  # Session routes
+  get '/login', to: 'sessions#new', as: 'login' # as: 'login' to have login_path
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy', as: 'logout'
 end

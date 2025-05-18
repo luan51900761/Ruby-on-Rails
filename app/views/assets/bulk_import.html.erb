@@ -1,0 +1,44 @@
+<!-- app/views/assets/bulk_import.html.erb -->
+<div class="container py-4">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h1 class="h3 mb-0">Bulk Import Assets</h1>
+        </div>
+        <div class="card-body">
+          <%= form_with url: process_bulk_import_assets_path, method: :post, local: true, multipart: true do |form| %>
+            <div class="mb-3">
+              <%= form.label :json_file, "Select JSON file", class: "form-label" %>
+              <%= form.file_field :json_file, accept: ".json", class: "form-control" %>
+              <div class="form-text">Please upload a JSON file following the format shown below.</div>
+            </div>
+
+            <div class="d-grid">
+              <%= form.submit "Import Assets", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+
+          <hr class="my-4">
+
+          <h3 class="h5">JSON Format Example:</h3>
+          <pre class="bg-light p-3 rounded">
+[
+  {
+    "title": "Digital Artwork #1",
+    "description": "A beautiful digital painting",
+    "file_url": "https://example.com/artwork1.jpg",
+    "price": 19.99
+  },
+  {
+    "title": "Music Track",
+    "description": "Original electronic music",
+    "file_url": "https://example.com/track.mp3",
+    "price": 9.99
+  }
+]</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,21 +1,56 @@
-default: &default
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: db
-  username: postgres
-  password: password
-
-development:
-  <<: *default
-  database: app_development
-
-test:
-  <<: *default
-  database: app_test
-
 production:
-  <<: *default
-  database: app_production
-  username: <%= ENV["DATABASE_USERNAME"] %>
-  password: <%= ENV["DATABASE_PASSWORD"] %>
+  primary:
+    adapter: postgresql
+    encoding: utf8
+    database: postgres
+    pool: 5
+    username: postgres
+    password: password
+    host:  host.docker.internal # This should match the service name defined in your docker-compose.yml
+
+  queue:
+    adapter: postgresql
+    encoding: utf8
+    database: postgres
+    pool: 5
+    username: postgres
+    password: password
+    host:  host.docker.internal
+   # This should match the service name defined in your docker-compose.yml
+
+  cache:
+    adapter: postgresql
+    encoding: utf8
+    database: postgres
+    pool: 5
+    username: postgres
+    password: password
+    host:  host.docker.internal
+development:
+  primary:
+    adapter: postgresql
+    encoding: utf8
+    database: postgres
+    pool: 5
+    username: postgres
+    password: password
+    host:  host.docker.internal # This should match the service name defined in your docker-compose.yml
+
+  queue:
+    adapter: postgresql
+    encoding: utf8
+    database: postgres
+    pool: 5
+    username: postgres
+    password: password
+    host:  host.docker.internal
+    # This should match the service name defined in your docker-compose.yml
+
+  cache:
+    adapter: postgresql
+    encoding: utf8
+    database: postgres
+    pool: 5
+    username: postgres
+    password: password
+    host:  host.docker.internal

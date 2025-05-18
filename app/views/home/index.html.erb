@@ -1,0 +1,54 @@
+<!-- Hero Section -->
+<div class="py-5 text-center bg-primary text-white">
+  <div class="container">
+    <h1 class="display-4 fw-bold">Digital Assets Platform</h1>
+    <p class="lead mb-4">Sell and discover digital assets with ease.</p>
+    <div>
+      <% if current_user && current_user.role == 'admin' %>
+        <a href="<%= creator_earnings_path %>" class="btn btn-outline-light btn-lg">Creators Earning</a>
+      <% end %>
+      <% if current_user && current_user.role == 'creator' %>
+        <a href="<%= bulk_import_assets_path %>" class="btn btn-outline-light btn-lg">Import Assets</a>
+      <% end %>
+      <% if current_user && current_user.role == 'customer' %>
+        <a href="<%= downloads_path %>" class="btn btn-outline-light btn-lg">Your purchases</a>
+      <% end %>
+      <a href="<%= catalog_index_path %>" class="btn btn-light btn-lg me-2">Browse Catalog</a>
+      <% if !current_user %>
+        <a href="<%= login_path %>" class="btn btn-outline-light btn-lg">Sign In</a>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Featured Assets -->
+<div class="container my-5">
+  <h2 class="mb-4 text-center">Featured Assets</h2>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+    <% 4.times do |i| %>
+      <div class="col">
+        <div class="border p-3 h-100">
+          <h5><%= ['Photo Collection', 'Video Templates', 'Audio Pack', 'Code Library'][i] %></h5>
+          <p class="text-muted"><%= ['Premium stock photos', 'Motion graphics templates', 'Royalty-free music tracks', 'Developer scripts & plugins'][i] %></p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-bold">$<%= [19.99, 29.99, 15.99, 24.99][i] %></span>
+            <a href="<%= catalog_index_path %>" class="btn btn-sm btn-outline-primary">View</a>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Call to Action -->
+<div class="py-5 bg-light text-center">
+  <div class="container">
+    <h2 class="fw-bold mb-3">Get Started Today</h2>
+    <p class="mb-4">Join our platform as a creator or customer.</p>
+    <% if current_user %>
+      <a href="<%= catalog_index_path %>" class="btn btn-primary btn-lg">Go to Catalog</a>
+    <% else %>
+      <a href="<%= login_path %>" class="btn btn-primary btn-lg me-2">Sign In</a>
+    <% end %>
+  </div>
+</div>

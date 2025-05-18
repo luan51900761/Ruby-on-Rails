@@ -1,0 +1,17 @@
+<!-- app/views/catalog/index.html.erb -->
+<h1>Available Digital Assets</h1>
+
+<div class="assets-grid">
+  <% @assets.each do |asset| %>
+    <div class="asset-card">
+      <h3><%= asset.title %></h3>
+      <p><%= asset.description %></p>
+      <p>Price: $<%= asset.price %></p>
+      <%= link_to "View Details", catalog_path(asset) %>
+    </div>
+  <% end %>
+</div>
+
+
+
+

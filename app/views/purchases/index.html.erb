@@ -1,0 +1,113 @@
+<div class="hero-section text-center">
+  <div class="container">
+    <h1 class="display-4 fw-bold">Purchase History</h1>
+    <p class="lead">Track all your transactions on the Digital Assets Platform</p>
+  </div>
+</div>
+
+<div class="container">
+  <% if @purchases.empty? %>
+    <div class="text-center py-5">
+      <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+      <h2>No purchases yet</h2>
+      <p class="text-muted">You haven't made any purchases yet. Explore our catalog to find digital assets.</p>
+      <a href="<%= catalog_index_path %>" class="btn btn-primary mt-3">Browse Catalog</a>
+    </div>
+  <% else %>
+    <div class="row mb-4">
+      <div class="col">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Your Transactions</h2>
+          <span class="badge bg-primary rounded-pill px-3 py-2">
+            <%= pluralize(@purchases.count, 'purchase') %>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+              <tr>
+                <th scope="col" class="ps-4">Asset</th>
+                <th scope="col">Purchase Date</th>
+                <th scope="col">Price Paid</th>
+                <th scope="col" class="text-end pe-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @purchases.each do |purchase| %>
+                <tr>
+                  <td class="ps-4">
+                    <div class="d-flex align-items-center">
+                      <i class="fas fa-file-alt fa-lg text-primary me-3"></i>
+                      <div>
+                        <h6 class="mb-0"><%= purchase.asset.title %></h6>
+                        <small class="text-muted"><%= purchase.asset.description.to_s.truncate(50) %></small>
+                      </div>
+                    </div>
+                  </td>
+                  <td><%= purchase.created_at.strftime("%B %d, %Y") %></td>
+                  <td><span class="badge bg-success rounded-pill px-3 py-2">$<%= sprintf('%.2f', purchase.price_paid) %></span></td>
+                  <td class="text-end pe-4">
+                    <div class="btn-group">
+                      <a href="<%= catalog_path(id: purchase.asset.id) %>" class="btn btn-sm btn-outline-secondary">View Details</a>
+                      <a href="<%= download_file_path(purchase) %>" class="btn btn-sm btn-primary">
+                        <i class="fas fa-download me-1"></i> Download
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-body">
+            <h5 class="card-title mb-4">
+              <i class="fas fa-chart-pie text-primary me-2"></i> Purchase Summary
+            </h5>
+            <div class="d-flex justify-content-between mb-3">
+              <span>Total Purchases:</span>
+              <strong><%= @purchases.count %></strong>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+              <span>Total Spent:</span>
+              <strong>$<%= sprintf('%.2f', @purchases.sum(&:price_paid)) %></strong>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span>First Purchase:</span>
+              <strong><%= @purchases.map(&:created_at).min.strftime("%B %d, %Y") rescue "N/A" %></strong>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-body">
+            <h5 class="card-title mb-4">
+              <i class="fas fa-info-circle text-primary me-2"></i> Need Help?
+            </h5>
+            <p>If you have any questions about your purchases or need assistance with downloads, please contact our support team.</p>
+            <a href="#" class="btn btn-outline-primary">
+              <i class="fas fa-headset me-2"></i> Contact Support
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-3">
+      <a href="<%= catalog_index_path %>" class="btn btn-primary">
+        <i class="fas fa-search me-2"></i> Browse More Assets
+      </a>
+    </div>
+  <% end %>
+</div>

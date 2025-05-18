@@ -1,0 +1,17 @@
+<!-- app/views/downloads/index.html.erb -->
+<h1>Your Purchased Assets</h1>
+
+<% if @purchases.empty? %>
+  <p>You haven't purchased any assets yet.</p>
+<% else %>
+  <div class="purchases-list">
+    <% @purchases.each do |purchase| %>
+      <div class="purchase-item">
+        <h3><%= purchase.asset.title %></h3>
+        <p>Purchased on: <%= purchase.purchase_date.strftime("%B %d, %Y") %></p>
+        <p><%= purchase.asset.description %></p>
+        <%= link_to "Download", download_path(purchase), class: "btn btn-success" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
